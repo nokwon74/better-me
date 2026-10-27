@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>BETTER ME 테스트</title>
+  <style>
+    body { font-family: -apple-system, system-ui, sans-serif; background: #F6F7F3; color: #202C28; padding: 20px; max-width: 760px; margin: 0 auto; }
+    h1 { font-size: 22px; }
+    li { padding: 6px 0; border-bottom: 1px solid #D9DFDA; list-style: none; }
+    .ok::before { content: "PASS  "; color: #2F6654; font-weight: 700; }
+    .fail::before { content: "FAIL  "; color: #A3352B; font-weight: 700; }
+    .fail small { display: block; color: #A3352B; }
+  </style>
+</head>
+<body>
+  <h1 id="summary">테스트 실행 중…</h1>
+  <ul id="list"></ul>
+  <script type="module">
+    import { run } from './js/tests.js';
+    const r = run();
+    const pass = r.filter(x => x.ok).length;
+    document.getElementById('summary').textContent = `${pass} / ${r.length} 통과`;
+    document.getElementById('summary').dataset.result = pass === r.length ? 'pass' : 'fail';
+    document.getElementById('list').innerHTML = r.map(x =>
+      `<li class="${x.ok ? 'ok' : 'fail'}">${x.name}${x.ok ? '' : `<small>${x.msg}</small>`}</li>`).join('');
+  </script>
+</body>
+</html>
